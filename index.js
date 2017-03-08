@@ -1,7 +1,8 @@
 var path = require('path')
 var spawn = require('child_process').spawn
+const P	= require('bluebird')
 
-module.exports = function pdfTextExtract (filePath, options, pdfToTextCommand, cb) {
+function pdfTextExtract (filePath, options, pdfToTextCommand, cb) {
   if (!cb) {
     cb = pdfToTextCommand
   }
@@ -66,6 +67,7 @@ module.exports = function pdfTextExtract (filePath, options, pdfToTextCommand, c
   args.push(filePath)
   args.push('-')
 
+console.log(options)
   streamResults(pdfToTextCommand, args, options, options.splitPages ? splitPages : cb)
 
   function splitPages (err, content) {
@@ -118,3 +120,28 @@ function streamResults (command, args, options, cb) {
     cb(null, output)
   }
 }
+
+/**
+ * Promise support
+ *
+ * @param {Function} resolve
+ * @param {Function} [reject]
+ * @return {Request}
+ */
+
+pdfTextExtract.prototype.then = function then(resolve, reject) {
+  if (!this._fullfilledPromise) {
+    var self = this;
+    if (this._endCalled) {
+      console.warn("Warning: pdfTextExtract request was sent twice, because both .end() and .then() were called. Never call .end() if you use promises");
+    }
+    this._fullfilledPromise = new Promise(function(innerResolve, innerReject){
+      self.end(function(err, res){
+        if (err) innerReject(err); else innerResolve(res);
+      });
+    });
+  }
+  return this._fullfilledPromise.then(resolve, reject);
+}
+
+module.exports = pdfTextExtract
