@@ -120,3 +120,5 @@ pdf-text-extract ./test/data/multipage.pdf
 npm install
 # run tests
 npm test
+
+# phuong add badge
