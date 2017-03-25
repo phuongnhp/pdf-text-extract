@@ -19,6 +19,8 @@ describe('Buffered Extract Promise', function () {
         page.length.should.be.above(0)
       })
       done()
+    }).catch(function (err) {
+      console.error('error:', err)
     })
   })
 })

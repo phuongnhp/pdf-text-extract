@@ -12,6 +12,8 @@ describe('Pdf extract', function () {
       should.not.exist(err)
       should.exists(pages)
       done()
+    }).catch(function (err) {
+      console.error('error:', err)
     })
   })
 
@@ -25,6 +27,8 @@ describe('Pdf extract', function () {
       should.exist(pages)
 
       done()
+    }).catch(function (err) {
+      console.error('error:', err)
     })
   })
 
@@ -42,6 +46,8 @@ describe('Pdf extract', function () {
         if (complete === streams) {
           done()
         }
+      }).catch(function (err) {
+        console.error('error:', err)
       })
     }
   })
@@ -59,6 +65,8 @@ describe('Pdf extract', function () {
       should.not.exists(err)
       should.exists(pages)
       done()
+    }).catch(function (err) {
+      console.error('error:', err)
     })
   })
 
@@ -72,6 +80,8 @@ describe('Pdf extract', function () {
       should.not.exist(err)
       should.exists(pages)
       done()
+    }).catch(function (err) {
+      console.error('error:', err)
     })
   })
 })
